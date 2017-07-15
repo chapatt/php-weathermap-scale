@@ -1,0 +1,9 @@
+An awk script for scaling the size of a PHP Network Weathermap configuration
+
+Usage: awk -f php-weathermap-scale.awk [var=val] weathermap.conf >mymap.conf
+
+Optionally provide values for the following variables:
+	width	the new width of the map in pixels (default 1440)
+	height	the new height of the map in pixels (default 900)
+	title	a new title for the map (default "My Map")
+	bg	a path to the background image (default "images/mybg.png")
