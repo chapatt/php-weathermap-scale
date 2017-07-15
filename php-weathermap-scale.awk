@@ -10,8 +10,7 @@
 #
 
 # return 0 if $1 is NODE-specific directive, 1 if not
-function parse_node_directive()
-{
+function parse_node_directive() {
 	switch ($1) {
 	case "ICON":
 		if (NF == 4)
@@ -39,8 +38,7 @@ function parse_node_directive()
 		return 0;
 	}
 }
-function parse_link_node(node,    pi,    x,    y,    r)
-{
+function parse_link_node(node,    pi,    x,    y,    r) {
 	split(node, a, ":");
 	if (3 in a) {
 		return sprintf("%s%.0f%s%.0f", a[1] ":", a[2] * xscale, ":", a[3] * yscale);
@@ -60,8 +58,7 @@ function parse_link_node(node,    pi,    x,    y,    r)
 	}
 }
 # return 0 if $1 is LINK-specific directive, 1 if not
-function parse_link_directive()
-{
+function parse_link_directive() {
 	switch ($1) {
 	case "BWLABELPOS":
 		return sprintf("%s\n", $0);
@@ -106,64 +103,54 @@ BEGIN {
 
 	printf "# Scaled by php-weathermap-scale\n\n";
 }
-{
-	switch (block) {
-	case "NODE":
-		if (temp = parse_node_directive()) {
+block == "NODE" { if (temp = parse_node_directive()) {
 			printf "%s", temp;
-			break;
-		} else {
+		  } else {
 			block = "MAIN";
+		  }
 		}
+block == "LINK" {
+	if (temp = parse_link_directive()) {
+		printf "%s", temp;
+	} else {
+		block = "MAIN";
+	}
+}
+block == "MAIN" { switch ($1) {
+	case "BACKGROUND":
+		print "BACKGROUND", bg;
+		break;
+	case "HEIGHT":
+		yscale = height / $2;
+		print "HEIGHT", height;
+		break;
+	case "KEYPOS":
+		printf "KEYPOS %s %.0f %.0f", $2, $3 * xscale, $4 * yscale;
+		$1 = $2 = $3 = $4 = "";
+		print $0;
+		break;
+	case "TITLE":
+		print "TITLE", title;
+		break;
+	case "TIMEPOS":
+		printf "TIMEPOS %.0f %.0f", $2 * xscale, $3 * yscale;
+		$1 = $2 = $3 = "";
+		print $0;
+		break;
+	case "WIDTH":
+		xscale = width / $2;
+		print "WIDTH", width;
+		break;
+	case "NODE":
+		print $0;
+		block = "NODE";
 		break;
 	case "LINK":
-		if (temp = parse_link_directive()) {
-			printf "%s", temp;
-			break;
-		} else {
-			block = "MAIN";
-		}
+		print $0;
+		block = "LINK";
 		break;
-	}
-
-	if (block == "MAIN") {
-		switch ($1) {
-		case "BACKGROUND":
-			print "BACKGROUND", bg;
-			break;
-		case "HEIGHT":
-			yscale = height / $2;
-			print "HEIGHT", height;
-			break;
-		case "KEYPOS":
-			printf "KEYPOS %s %.0f %.0f", $2, $3 * xscale, $4 * yscale;
-			$1 = $2 = $3 = $4 = "";
-			print $0;
-			break;
-		case "TITLE":
-			print "TITLE", title;
-			break;
-		case "TIMEPOS":
-			printf "TIMEPOS %.0f %.0f", $2 * xscale, $3 * yscale;
-			$1 = $2 = $3 = "";
-			print $0;
-			break;
-		case "WIDTH":
-			xscale = width / $2;
-			print "WIDTH", width;
-			break;
-		case "NODE":
-			print $0;
-			block = "NODE";
-			break;
-		case "LINK":
-			print $0;
-			block = "LINK";
-			break;
-		default:
-			print $0;
-		}
+	default:
+		print $0;
 	}
 }
-END {
-}
+END { }
