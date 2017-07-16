@@ -39,7 +39,7 @@ function parse_node_directive() {
 	}
 }
 # return processed string
-function parse_link_node(node,    pi,    x,    y,    r) {
+function parse_link_node(node,    pi,x,y,r) {
 	split(node, a, ":");
 	if (3 in a) {
 		return sprintf("%s%.0f%s%.0f", a[1] ":", a[2] * xscale, ":", a[3] * yscale);
