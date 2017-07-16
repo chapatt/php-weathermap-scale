@@ -9,7 +9,7 @@
 #	bg	a path to the background image (default "images/mybg.png")
 #
 
-# return 0 if $1 is NODE-specific directive, 1 if not
+# return processed string if $1 is NODE-specific directive, 0 if not
 function parse_node_directive() {
 	switch ($1) {
 	case "ICON":
@@ -38,6 +38,7 @@ function parse_node_directive() {
 		return 0;
 	}
 }
+# return processed string
 function parse_link_node(node,    pi,    x,    y,    r) {
 	split(node, a, ":");
 	if (3 in a) {
@@ -57,7 +58,7 @@ function parse_link_node(node,    pi,    x,    y,    r) {
 		return sprintf("%s", node);
 	}
 }
-# return 0 if $1 is LINK-specific directive, 1 if not
+# return processed string if $1 is LINK-specific directive, 0 if not
 function parse_link_directive() {
 	switch ($1) {
 	case "BWLABELPOS":
