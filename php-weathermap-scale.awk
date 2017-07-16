@@ -101,17 +101,17 @@ BEGIN {
 
 	temp = 0;
 
-	printf "# Scaled by php-weathermap-scale\n\n";
+	printf("# Scaled by php-weathermap-scale\n\n");
 }
 block == "NODE" { if (temp = parse_node_directive()) {
-			printf "%s", temp;
+			printf("%s", temp);
 		  } else {
 			block = "MAIN";
 		  }
 		}
 block == "LINK" {
 	if (temp = parse_link_directive()) {
-		printf "%s", temp;
+		printf("%s", temp);
 	} else {
 		block = "MAIN";
 	}
@@ -125,7 +125,7 @@ block == "MAIN" { switch ($1) {
 		print "HEIGHT", height;
 		break;
 	case "KEYPOS":
-		printf "KEYPOS %s %.0f %.0f", $2, $3 * xscale, $4 * yscale;
+		printf("KEYPOS %s %.0f %.0f", $2, $3 * xscale, $4 * yscale);
 		$1 = $2 = $3 = $4 = "";
 		print $0;
 		break;
@@ -133,7 +133,7 @@ block == "MAIN" { switch ($1) {
 		print "TITLE", title;
 		break;
 	case "TIMEPOS":
-		printf "TIMEPOS %.0f %.0f", $2 * xscale, $3 * yscale;
+		printf("TIMEPOS %.0f %.0f", $2 * xscale, $3 * yscale);
 		$1 = $2 = $3 = "";
 		print $0;
 		break;
