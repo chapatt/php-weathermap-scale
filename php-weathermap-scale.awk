@@ -61,9 +61,6 @@ function parse_link_node(node,    pi,x,y,r) {
 # return processed string if $1 is LINK-specific directive, 0 if not
 function parse_link_directive() {
 	switch ($1) {
-	case "BWLABELPOS":
-		return sprintf("%s\n", $0);
-		break;
 	case "NODES":
 		return sprintf("NODES %s %s\n", parse_link_node($2), parse_link_node($3));
 		break;
@@ -74,11 +71,11 @@ function parse_link_directive() {
 		return sprintf("WIDTH %.0f\n", $2 * xscale);
 		break;
 	case "ARROWSTYLE": case "BANDWIDTH": case "BWFONT": case "BWLABEL":
-	case "BWSTYLE": case "COLOR": case "COMMENTFONT": case "COMMENTPOS":
-	case "COMMENTSTYLE": case "DUPLEX": case "INBWFORMAT": case "INCOMMENT":
-	case "INFOURL": case "INNOTES": case "INOVERLIBCAPTION":
-	case "INOVERLIBGRAPH": case "LINKSTYLE": case "NOTES":
-	case "OUTBWFORMAT": case "OUTCOMMENT": case "OUTINFOURL":
+	case "BWLABELPOS": case "BWSTYLE": case "COLOR": case "COMMENTFONT":
+	case "COMMENTPOS": case "COMMENTSTYLE": case "DUPLEX":
+	case "INBWFORMAT": case "INCOMMENT": case "INFOURL": case "INNOTES":
+	case "INOVERLIBCAPTION": case "INOVERLIBGRAPH": case "LINKSTYLE":
+	case "NOTES": case "OUTBWFORMAT": case "OUTCOMMENT": case "OUTINFOURL":
 	case "OUTNOTES": case "OUTOVERLIBCAPTION": case "OUTOVERLIBGRAPH":
 	case "OVERLIBCAPTION": case "OVERLIBGRAPH": case "OVERLIBHEIGHT":
 	case "OVERLIBWIDTH": case "SET": case "SPLITPOS": case "TARGET":
